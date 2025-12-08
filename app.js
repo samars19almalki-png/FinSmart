@@ -292,6 +292,14 @@ document.getElementById('addBudgetForm').addEventListener('submit', (e) => {
 
 // تحديث قائمة الميزانيات
 function updateBudgetsList() {
+    let statusText = "";
+if (percentage < 80) {
+    statusText = "🟢 الميزانية ضمن الحد";
+} else if (percentage >= 80 && percentage < 100) {
+    statusText = "🟠 اقتربت من الحد!";
+} else {
+    statusText = "🔴 تم تجاوز الميزانية!";
+}
     const listDiv = document.getElementById('budgetsList');
     
     if (budgets.length === 0) {
