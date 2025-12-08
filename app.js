@@ -199,6 +199,10 @@ document.getElementById('addTransactionForm').addEventListener('submit', (e) => 
 
 // تحديث قائمة المعاملات
 function updateTransactionsList() {
+    const filterValue = document.getElementById('filterCategory')?.value || "";
+const filtered = filterValue
+    ? transactions.filter(t => t.category === filterValue)
+    : transactions;
     const listDiv = document.getElementById('transactionsList');
     
     if (transactions.length === 0) {
