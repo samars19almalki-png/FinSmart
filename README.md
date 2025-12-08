@@ -51,6 +51,4 @@ FinSmart is a simple, innovative, and user-friendly web application that helps u
 - Local Storage
 - DOM Manipulation
 
----
 
-## 📂 Project Structure
