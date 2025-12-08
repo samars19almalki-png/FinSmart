@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSmart - إدارة مالية ذكية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #d1fae5, #ccfbf1, #cffafe);
+            min-height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #d1fae5;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #10b981, #14b8a6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #059669;
+            border: 2px solid #d1fae5;
+        }
+
+        .btn-secondary:hover {
+            background: #f0fdf4;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid #d1fae5;
+            background: rgba(16, 185, 129, 0.05);
+            transition: all 0.3s;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            background: transparent;
+            color: #059669;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: linear-gradient(to right, #10b981, #14b8a6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .badge-income {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-expense {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        .icon-box {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.75rem;
+            background: #d1fae5;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #10b981, #14b8a6);
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full">
+            <div class="card fade-in">
+                <div class="text-center mb-6">
+                    <div class="icon-box mx-auto mb-4" style="background: linear-gradient(to bottom right, #10b981, #14b8a6);">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">FinSmart</h2>
+                    <p class="text-gray-600">مرحباً بك في نظام الإدارة المالية</p>
+                </div>
+
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">الاسم الكامل</label>
+                        <input type="text" id="userName" class="input" placeholder="أدخل اسمك" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">البريد الإلكتروني</label>
+                        <input type="email" id="userEmail" class="input" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">
+                        ابدأ الآن
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="mainApp" class="hidden">
+        <!-- شريط التنقل -->
+        <nav class="bg-white/80 backdrop-blur-md border-b border-green-100 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="icon-box" style="background: linear-gradient(to bottom right, #10b981, #14b8a6);">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-gray-800">FinSmart</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-gray-600" id="welcomeText">مرحباً</span>
+                        <button onclick="logout()" class="btn btn-secondary">
+                            تسجيل الخروج
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- التبويبات -->
+        <div class="max-w-7xl mx-auto px-4 mt-8">
+            <div class="flex gap-2 bg-white/60 backdrop-blur-sm p-2 rounded-2xl border border-green-100 w-fit">
+                <button class="tab active" onclick="showTab('dashboard')">لوحة التحكم</button>
+                <button class="tab" onclick="showTab('transactions')">المعاملات</button>
+                <button class="tab" onclick="showTab('budgets')">الميزانيات</button>
+                <button class="tab" onclick="showTab('reports')">التقارير</button>
+                <button class="tab" onclick="showTab('backup')">النسخ الاحتياطي</button>
+            </div>
+        </div>
+
+        <!-- المحتوى -->
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <!-- لوحة التحكم -->
+            <div id="dashboardTab" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="card">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-gray-600">إجمالي الدخل</p>
+                            <div class="icon-box" style="background: linear-gradient(to bottom right, #3b82f6, #6366f1);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800" id="totalIncome">0.00 ر.س</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-gray-600">إجمالي المصروفات</p>
+                            <div class="icon-box" style="background: linear-gradient(to bottom right, #ef4444, #ec4899);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800" id="totalExpenses">0.00 ر.س</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-gray-600">الرصيد الصافي</p>
+                            <div class="icon-box" style="background: linear-gradient(to bottom right, #10b981, #14b8a6);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800" id="netBalance">0.00 ر.س</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-gray-600">الميزانية المتبقية</p>
+                            <div class="icon-box" style="background: linear-gradient(to bottom right, #8b5cf6, #ec4899);">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-gray-800" id="budgetRemaining">0.00 ر.س</h3>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">المعاملات الأخيرة</h3>
+                    <div id="recentTransactions" class="space-y-3">
+                        <p class="text-gray-500 text-center py-8">لا توجد معاملات بعد</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المعاملات -->
+            <div id="transactionsTab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">إدارة المعاملات</h2>
+                    <button onclick="showTransactionForm()" class="btn btn-primary">
+                        إضافة معاملة
+                    </button>
+                </div>
+
+                <!-- نموذج المعاملة -->
+                <div id="transactionForm" class="card mb-6 hidden">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">معاملة جديدة</h3>
+                    <form id="addTransactionForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">النوع</label>
+                            <select id="transactionType" class="input" onchange="updateCategories()">
+                                <option value="expense">مصروف</option>
+                                <option value="income">دخل</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">الفئة</label>
+                            <select id="transactionCategory" class="input" required></select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">المبلغ</label>
+                            <input type="number" id="transactionAmount" class="input" step="0.01" placeholder="0.00" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">التاريخ</label>
+                            <input type="date" id="transactionDate" class="input" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 mb-2">الوصف</label>
+                            <input type="text" id="transactionDescription" class="input" placeholder="أدخل الوصف" required>
+                        </div>
+                        <div class="md:col-span-2 flex gap-3">
+                            <button type="submit" class="btn btn-primary flex-1">إضافة</button>
+                            <button type="button" onclick="hideTransactionForm()" class="btn btn-secondary">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- قائمة المعاملات -->
+                <div class="card">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">جميع المعاملات</h3>
+                    <div id="transactionsList" class="space-y-3">
+                        <p class="text-gray-500 text-center py-8">لا توجد معاملات بعد</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الميزانيات -->
+            <div id="budgetsTab" class="tab-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">إدارة الميزانيات</h2>
+                    <button onclick="showBudgetForm()" class="btn btn-primary">
+                        إضافة ميزانية
+                    </button>
+                </div>
+
+                <!-- نموذج الميزانية -->
+                <div id="budgetForm" class="card mb-6 hidden">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">ميزانية جديدة</h3>
+                    <form id="addBudgetForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">الفئة</label>
+                            <select id="budgetCategory" class="input" required>
+                                <option value="">اختر فئة</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">حد الميزانية</label>
+                            <input type="number" id="budgetLimit" class="input" step="0.01" placeholder="0.00" required>
+                        </div>
+                        <div class="md:col-span-2 flex gap-3">
+                            <button type="submit" class="btn btn-primary flex-1">إنشاء</button>
+                            <button type="button" onclick="hideBudgetForm()" class="btn btn-secondary">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- قائمة الميزانيات -->
+                <div id="budgetsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            </div>
+
+            <!-- التقارير -->
+            <div id="reportsTab" class="tab-content hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">التقارير والتحليلات</h2>
+                
+                <div class="card mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">تصدير البيانات</h3>
+                        <div class="flex gap-3">
+                            <button onclick="exportCSV()" class="btn btn-primary">تصدير CSV</button>
+                            <button onclick="exportJSON()" class="btn btn-secondary">تصدير JSON</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card text-center">
+                        <p class="text-gray-600 mb-2">عدد المعاملات</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="reportTransactions">0</h3>
+                    </div>
+                    <div class="card text-center">
+                        <p class="text-gray-600 mb-2">عدد الميزانيات</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="reportBudgets">0</h3>
+                    </div>
+                    <div class="card text-center">
+                        <p class="text-gray-600 mb-2">معدل الادخار</p>
+                        <h3 class="text-3xl font-bold text-gray-800" id="reportSavings">0%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- النسخ الاحتياطي -->
+            <div id="backupTab" class="tab-content hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">النسخ الاحتياطي والاستعادة</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">إنشاء نسخة احتياطية</h3>
+                        <p class="text-gray-600 mb-6">قم بتنزيل نسخة كاملة من بياناتك المالية</p>
+                        <button onclick="createBackup()" class="btn btn-primary w-full">تنزيل النسخة الاحتياطية</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">استعادة البيانات</h3>
+                        <p class="text-gray-600 mb-6">استعد بياناتك من ملف نسخة احتياطية</p>
+                        <input type="file" id="restoreFile" accept=".json" class="hidden" onchange="restoreBackup(event)">
+                        <button onclick="document.getElementById('restoreFile').click()" class="btn btn-primary w-full">
+                            رفع ملف النسخة الاحتياطية
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card mt-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">إحصائيات البيانات</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <p class="text-gray-600 mb-1">المعاملات</p>
+                            <p class="text-2xl font-bold text-gray-800" id="statsTransactions">0</p>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <p class="text-gray-600 mb-1">الميزانيات</p>
+                            <p class="text-2xl font-bold text-gray-800" id="statsBudgets">0</p>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <p class="text-gray-600 mb-1">الدخل</p>
+                            <p class="text-2xl font-bold text-gray-800" id="statsIncome">0</p>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <p class="text-gray-600 mb-1">المصروفات</p>
+                            <p class="text-2xl font-bold text-gray-800" id="statsExpenses">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- اختبارات القبول للسيناريوهات (Testing Artifacts) -->
+                <div class="card mt-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">اختبارات القبول للسيناريوهات</h3>
+                    <p class="text-gray-600 mb-4">
+                        يستخدم هذا القسم لاختبار أهم سيناريوهات النظام (تسجيل الدخول، إضافة المعاملات، الميزانيات، النسخ الاحتياطي).
+                    </p>
+                    <button onclick="runAcceptanceTests()" class="btn btn-secondary w-full mb-4">
+                        تشغيل اختبارات السيناريوهات
+                    </button>
+                    <div id="testResults" class="space-y-2 text-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
