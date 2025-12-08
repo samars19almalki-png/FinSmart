@@ -1,45 +1,54 @@
-# FinSmart – Personal Finance Management Web App
+# FinSmart - A Web App for Personal Finance Management
 
-FinSmart هو تطبيق ويب بسيط لإدارة المصاريف والدخل، يساعد المستخدم على تتبع أمواله بسهولة، وإنشاء ميزانيات، وتحليل معاملاته المالية. يعمل التطبيق بالكامل على المتصفح باستخدام JavaScript و LocalStorage بدون الحاجة لأي قاعدة بيانات خارجية.
+FinSmart is a simple, innovative, and user-friendly web application that helps users easily track their finances, measure their financial transactions, and analyze their spending. The application runs entirely in the browser using JavaScript and LocalStorage, without requiring any external database.
 
 ---
 
-## 📌 Features
+## 📌Features
 
 ### 1. User Login
-- تسجيل الدخول باستخدام الاسم والبريد الإلكتروني.
-- حفظ بيانات المستخدم داخل LocalStorage.
+- Log in using your name and email address.
 
-### 2. Transactions Management
-- إضافة دخل أو مصروف.
-- اختيار الفئة (مثل: البقالة، المواصلات، الترفيه، الراتب…)
-- تحديد المبلغ والتاريخ والوصف.
-- عرض قائمة بجميع المعاملات بشكل منسّق.
+- Save user data to LocalStorage.
+
+### 2. Transaction Management
+- Add income or expenses.
+
+- Select a category (e.g., sofa, transportation, music, salary, etc.).
+- View comprehensive specifications, historical data, and descriptions.
+
+- View a structured list of transactions.
 
 ### 3. Budget Management
-- إنشاء ميزانية لكل فئة من فئات المصاريف.
-- تحديث الصرف تلقائياً عند إضافة معاملة جديدة.
-- حساب المتبقي من الميزانية.
+- Create allocations for each expense category.
+
+- Automatically update spending when adding a new expense.
+
+- Calculate only from the budget.
 
 ### 4. Dashboard
-- عرض إجمالي الدخل.
-- عرض إجمالي المصاريف.
-- حساب صافي الرصيد.
-- عرض آخر المعاملات.
-- متابعة الصرف مقابل الميزانية.
+- View total income.
 
-### 5. Backup & Restore
-- إنشاء نسخة احتياطية (ملف JSON).
-- استرجاع نسخة احتياطية سابقة.
-- حفظ آخر وقت للنسخ الاحتياطي.
+- View total expenses.
+
+- Calculate net balance. - View recent transactions.
+
+- Apply spending to the budget.
+
+### 5. Backup and Restore
+- Create a backup (JSON file).
+
+- Restore a previous backup.
+
+- Save the last backup time.
 
 ---
 
 ## 🛠 Technologies Used
-- HTML  
-- CSS / Tailwind  
-- JavaScript  
-- LocalStorage  
+- HTML
+- CSS/Backwind
+- JavaScript
+- Local Storage
 - DOM Manipulation
 
 ---
