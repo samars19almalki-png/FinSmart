@@ -1,5 +1,5 @@
 name: FinSmart CI/CD
- 
+
 on:
   push:
     branches: [ "main" ]
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./
-
+ 
   deploy:
     environment:
       name: github-pages
