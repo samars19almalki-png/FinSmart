@@ -1,32 +1,40 @@
 name: FinSmart CI/CD
+
 on:
   push:
     branches: [ "main" ]
-    
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   pipeline:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3 
-      
-    - name: Basic CI message
-      run: echo "CI/CD is working for FinSmart!"
-      
-    - name: Verify index.html exists
-      run: test -f index.html
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Verify app.js exists
-      run: test -f app.js
-      
-    - name: Build step (static site)
-      run: echo "📦 No build required for static site" 
-      
-    - name : Upload static sit
-      uses: actions/upload-pages-artifact@v3
-      with:
-       path: ./ 
-            
+      - name: Basic CI message
+        run: echo "✅ CI/CD is working for Finsmart!"
+
+      - name: Verify index.html exists
+        run: test -f index.html
+
+      - name: Verify app.js exists
+        run: test -f app.js
+
+      - name: Build step (static site)
+        run: echo "📦 No build required for static site"
+
+      - name: Upload static site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
+
   deploy:
     environment:
       name: github-pages
