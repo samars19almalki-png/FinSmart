@@ -18,4 +18,5 @@ jobs:
 
     - name: Verify app.js exists
       run: test -f app.js
-      
+      - name: Build step (static site)
+        run: echo "📦 No build required for static site"
