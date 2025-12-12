@@ -1,0 +1,11 @@
+npm install --save-dev jest
+"scripts": {
+"test": "jest"
+}
+test('App should run without crashing', () => {
+  expect(app).toBeDefined();
+});
+
+• Update package.json with:"scripts": {
+  "test": "jest"
+}
