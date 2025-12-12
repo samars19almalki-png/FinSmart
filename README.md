@@ -51,4 +51,9 @@ FinSmart is a simple, innovative, and user-friendly web application that helps u
 - Local Storage
 - DOM Manipulation
 
+## Manual QA
+1. Run node app.js
+2. Input sample data
+3. Verify output matches expected results
+   
 CI/CD test run
