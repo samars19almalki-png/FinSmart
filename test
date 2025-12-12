@@ -9,3 +9,8 @@ test('App should run without crashing', () => {
 • Update package.json with:"scripts": {
   "test": "jest"
 }
+const calculator = require('../services/calculator');
+
+test('handles division by zero safely', () => {
+  expect(calculator.add(-5, -3)).toBe(-8);
+});
